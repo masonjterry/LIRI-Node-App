@@ -1,14 +1,23 @@
 let keys = require("./keys.js");
 
 let command = process.argv[2];
-let search = process.argv[3];
+let input = process.argv;
+let search = "";
+
+for (let i = 3; i < input.length; i++) {
+  if (i > 3 && i < input.length) {
+    search = search + "+" + input[i];
+  } else {
+    search += input[i];
+  }
+}
 
 switch(command) {
   case "my tweets":
-    tweets(search);
+    tweets();
     break;
   case "spotify-this-song":
-    spotify(serach);
+    spotify(search);
     break;
   case "movie-this":
     movie(search);
