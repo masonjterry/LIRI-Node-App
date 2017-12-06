@@ -1,4 +1,10 @@
 let keys = require("./keys.js");
+let twitter = new Twitter ({
+  consumer_key: ,
+  consumer_secret: ,
+  access_token_key: ,
+  access_token_secret: ,
+});
 
 let command = process.argv[2];
 let input = process.argv;
@@ -12,6 +18,7 @@ for (let i = 3; i < input.length; i++) {
   }
 }
 
+// switch statement
 switch(command) {
   case "my tweets":
     tweets();
@@ -29,21 +36,31 @@ switch(command) {
     break;
 }
 
-function tweets(search) {
+// twitter function
+function tweets() {
   console.log("tweets");
   console.log("search", search);
+  twitter.get("statuses/user_timeline", params, function(err, tweets, response) {
+    if (err) {
+      console.log("You messed up...", err);
+    }
+    console.log(tweets);
+  })
 }
 
+// spotify function
 function spotify(search) {
   console.log("spotify");
   console.log("search", search);
 }
 
+// movie function
 function movie(search) {
   console.log("movie");
   console.log("search", search);
 }
 
+// do what it says function
 function doWhatItSays(search) {
   console.log("doing what it says");
   console.log("search", search);
