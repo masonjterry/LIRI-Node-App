@@ -51,7 +51,7 @@ function tweets() {
   let params = {screen_name: "masonjterry"};
   twitter.get("statuses/user_timeline", params, function(err, tweets, response) {
     if (err) {
-      console.log("You messed up...", err);
+      console.log("Error occurred: ", err);
     }
   console.log("-------------------------------------------")
     for (let i = 0; i < 20; i++) {
@@ -94,7 +94,7 @@ function movie(userSearch) {
 
   request(url, function(err, response, body) {
     if (err) {
-      console.log("Error", err);
+      console.log("Error occurred: ", err);
     } else {
       console.log("-------------------------------------------")
       console.log("Title: " + JSON.parse(body).Title);
