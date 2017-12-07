@@ -27,15 +27,16 @@ for (let i = 3; i < input.length; i++) {
     userSearch += input[i];
   }
 }
+if (userSearch !== "") {
+  let userInput = command + ": " + userSearch + ", ";
 
-let userInput = command + ": " + userSearch + ", ";
-
-fs.appendFile("log.txt", userInput, function(err){
-  if (err) {
-    console.log("Error occurred: " + err);
-  }
-  console.log("Content added!");
-});
+  fs.appendFile("log.txt", userInput, function(err){
+    if (err) {
+      console.log("Error occurred: " + err);
+    }
+    console.log("Content added!");
+  });
+}
 
 // switch statement
 switch(command) {
@@ -119,9 +120,11 @@ function movie(userSearch) {
 }
 
 // do what it says function
-function doWhatItSays(userSearch) {
+function doWhatItSays() {
   fs.readFile("random.txt", "utf8", function(err, data) {
-
+    if (err) {
+      console.log("Error occurred: " + err);
+    }
     spotifyThisSong("i+want+it+that+way");
   });
 }
