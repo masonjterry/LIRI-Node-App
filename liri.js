@@ -28,6 +28,15 @@ for (let i = 3; i < input.length; i++) {
   }
 }
 
+let userInput = command + ": " + userSearch + ", ";
+
+fs.appendFile("log.txt", userInput, function(err){
+  if (err) {
+    console.log("Error occurred: " + err);
+  }
+  console.log("Content added!");
+});
+
 // switch statement
 switch(command) {
   case "my-tweets":
