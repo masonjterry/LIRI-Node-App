@@ -121,10 +121,10 @@ function movie(userSearch) {
 
 // do what it says function
 function doWhatItSays() {
-  fs.readFile("random.txt", "utf8", function(err, data) {
-    if (err) {
-      console.log("Error occurred: " + err);
-    }
-    spotifyThisSong("i+want+it+that+way");
-  });
+    fs.readFile("random.txt", "utf8", function(err, data) {
+      if (err) {
+        console.log("Error occurred: " + err);
+      }
+      spotifyThisSong("i+want+it+that+way");
+    });
 }
