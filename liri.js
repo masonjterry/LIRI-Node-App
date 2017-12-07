@@ -1,17 +1,30 @@
-let twitter = require("twitter");
+let Twitter = require("twitter");
 let keys = require("./keys.js");
-let spotify = require("spotify");
+let Spotify = require("node-spotify-api");
 let request = require("request");
+let fs = require("fs");
+
+let spotify = new Spotify({
+  id: keys.spotifyKeys.id,
+  secret: keys.spotifyKeys.secret
+});
+
+let twitter = new Twitter({
+  consumer_key: keys.twitterKeys.consumer_key,
+  consumer_secret: keys.twitterKeys.consumer_secret,
+  access_token_key: keys.twitterKeys.access_token_key,
+  access_token_secret: keys.twitterKeys.access_token_secret
+});
 
 let command = process.argv[2];
 let input = process.argv;
-let search = "";
+let userSearch = "";
 
 for (let i = 3; i < input.length; i++) {
   if (i > 3 && i < input.length) {
-    search = search + "+" + input[i];
+    userSearch = userSearch + "+" + input[i];
   } else {
-    search += input[i];
+    userSearch += input[i];
   }
 }
 
@@ -21,10 +34,10 @@ switch(command) {
     tweets();
     break;
   case "spotify-this-song":
-    spotify(search);
+    spotifyThisSong(userSearch);
     break;
   case "movie-this":
-    movie(search);
+    movie(userSearch);
     break;
   case "do-what-it-says":
     doWhatItSays();
@@ -33,32 +46,51 @@ switch(command) {
     break;
 }
 
-// // twitter function
-// function tweets() {
-//   console.log("tweets");
-//   let params = {screen_name: "twitterAPI"};
-//   keys.get("statuses/user_timeline", params, function(err, tweets, response) {
-//     if (err) {
-//       console.log("You messed up...", err);
-//     }
-//     console.log(tweets);
-//   })
-// }
-//
-// // spotify function
-// function spotify(search) {
-//   console.log("spotify");
-//   console.log("search", search);
-//   spotify.lookup: function({ type: "artist or album or track", id: "Spotify ID Hash"}, hollaback);
-//
-// }
+// twitter function
+function tweets() {
+  let params = {screen_name: "masonjterry"};
+  twitter.get("statuses/user_timeline", params, function(err, tweets, response) {
+    if (err) {
+      console.log("You messed up...", err);
+    }
+  console.log("-------------------------------------------")
+    for (let i = 0; i < 20; i++) {
+    console.log(tweets[i].text);
+    }
+  console.log("-------------------------------------------")
+  })
+}
+
+// spotify function
+function spotifyThisSong(userSearch) {
+
+  spotify.search({ type: "track", query: userSearch, limit: 1 }, function(err, data) {
+    if (err) {
+      return console.log("Error occurred: " + err);
+    }
+  console.log("-------------------------------------------")
+  // artist
+  console.log("Artist: " + data.tracks.items[0].artists[0].name);
+  // song name
+  console.log("Song Name: " + data.tracks.items[0].name);
+  // preview link of the song
+  console.log("Song Preview: " + data.tracks.items[0].preview_url);
+  // album the song is on
+  console.log("Album: " + data.tracks.items[0].album.name);
+  console.log("-------------------------------------------")
+  });
+
+}
 
 // movie function
-function movie(search) {
-  let url = "http://www.omdbapi.com/?t=" + search + "&y=&plot=short&apikey=trilogy";
+function movie(userSearch) {
+  let url = "http://www.omdbapi.com/?t=" + userSearch + "&y=&plot=short&apikey=trilogy";
 
   request(url, function(err, response, body) {
-    if (!err && response.statusCode === 200) {
+    if (err) {
+      console.log("Error", err);
+    } else {
+      console.log("-------------------------------------------")
       console.log("Title: " + JSON.parse(body).Title);
       console.log("Year: " + JSON.parse(body).Year);
       console.log("Rated: " + JSON.parse(body).Rated);
@@ -67,13 +99,15 @@ function movie(search) {
       console.log("Language: " + JSON.parse(body).Language);
       console.log("Plot: " + JSON.parse(body).Plot);
       console.log("Actors: " + JSON.parse(body).Actors);
-      console.log("--------------------------------------------------------");
+      console.log("-------------------------------------------")
     }
   });
 }
 
 // do what it says function
-function doWhatItSays(search) {
-  console.log("doing what it says");
-  console.log("search", search);
+function doWhatItSays(userSearch) {
+  fs.readFile("random.txt", "utf8", function(err, data) {
+
+    spotifyThisSong("i+want+it+that+way");
+  });
 }
