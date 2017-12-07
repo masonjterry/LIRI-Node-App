@@ -98,7 +98,6 @@ function movie(userSearch) {
   if (userSearch === "") {
     userSearch = "mr+nobody";
   }
-  console.log("userSearch", userSearch);
   let url = "http://www.omdbapi.com/?t=" + userSearch + "&y=&plot=short&apikey=c5dea011";
 
   request(url, function(err, response, body) {
