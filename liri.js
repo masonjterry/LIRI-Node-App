@@ -55,7 +55,7 @@ function tweets() {
     }
   console.log("-------------------------------------------")
     for (let i = 0; i < 20; i++) {
-    console.log(tweets[i].text);
+    console.log("Tweet " + [i + 1] + ": " + tweets[i].text);
     }
   console.log("-------------------------------------------")
   })
@@ -63,7 +63,9 @@ function tweets() {
 
 // spotify function
 function spotifyThisSong(userSearch) {
-
+  if (userSearch === "") {
+    userSearch = "the+sign+ace+of+base";
+  }
   spotify.search({ type: "track", query: userSearch, limit: 1 }, function(err, data) {
     if (err) {
       return console.log("Error occurred: " + err);
@@ -84,7 +86,11 @@ function spotifyThisSong(userSearch) {
 
 // movie function
 function movie(userSearch) {
-  let url = "http://www.omdbapi.com/?t=" + userSearch + "&y=&plot=short&apikey=trilogy";
+  if (userSearch === "") {
+    userSearch = "mr+nobody";
+  }
+  console.log("userSearch", userSearch);
+  let url = "http://www.omdbapi.com/?t=" + userSearch + "&y=&plot=short&apikey=c5dea011";
 
   request(url, function(err, response, body) {
     if (err) {
